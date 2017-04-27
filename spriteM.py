@@ -2,6 +2,8 @@ import pygame
 from pygame.locals import *
 from PIL import Image
 
+from sprite_anime import *
+
 class spriteM:
 
     
@@ -18,6 +20,7 @@ class spriteM:
         self.path = path
         self.multiFrame = 0
         
+
 
     def load(self, path, x="none", y="none"):    # met l'image en base de donnee à la place de celle d'origine
 
@@ -84,14 +87,8 @@ class spriteM:
 
         #print("img rendu en x:",x," y:",y, ". Avec un angle de ",angle," dg.")
         
-    def render_anim(self, anime, x="none", y="none"): #anime= liste des frames à rendre
-        if x == "none":
-            x = self.x
-        if y == "none":
-            y = self.y
 
-        for i to range(len(anime)):
-            render(self.x,self.y,anime[i])
+
         
         
 
