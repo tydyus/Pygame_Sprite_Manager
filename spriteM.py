@@ -14,11 +14,12 @@ class spriteM:
         self.name = "SpriteM_n." + str(spriteM.counter)
         self.x = x
         self.y = y
-        self.img = {(self.name + "_0"):pygame.image.load(path).convert_alpha()}
+        self.img = {(self.name):pygame.image.load(path).convert_alpha()}
         self.path = path
+        self.multiFrame = 0
         
 
-    def load(self, path, x="none", y="none", debug=0):    # met l'image en base de donnee à la place de celle d'origine
+    def load(self, path, x="none", y="none"):    # met l'image en base de donnee à la place de celle d'origine
 
         if x == "none":
             x = self.x
@@ -26,45 +27,51 @@ class spriteM:
             y = self.y
 
         self.path = path
-        self.img = {(self.name + "_ 0"):pygame.image.load(path).convert_alpha()}
-        if debug == 1:
-            print(path, " à été mis en stock avec comme placement lors du rendu x:",x," y:",y)
+        self.img = {(self.name ):pygame.image.load(path).convert_alpha()}
 
     def frames(self, tx, ty, path="none"):
         if path != "none":
             load(path)
             
-        nbrFramesX = int((self.img[(self.name +"_0")].get_size()[0] // tx)-1)
-        nbrFramesY = int((self.img[(self.name +"_0")].get_size()[1] // ty)-1)
-        
-        imgC = {}
+        nbrFramesX = int((self.img[(self.name )].get_size()[0] // tx)-1)
+        nbrFramesY = int((self.img[(self.name )].get_size()[1] // ty)-1)
+
+        self.multiFrame = 1
+        nbrframe = 0
+        #print("creat ",self.name)
         for ii in range(nbrFramesY+1):
             for i in range(nbrFramesX+1):
-                cropped = pygame.Surface((tx, ty))
-                cropped.blit(self.img[(self.name +"_0")], ((tx*i), (ty*ii)))
-                imgC[(self.name + "_" + str(i+(nbrFramesX*ii)))] = cropped
-            
-        self.img = imgC
-            
-    def render(self, x="none", y="none", frame=0, debug=0):
-        if x == "none":
-            x = self.x
-        if y == "none":
-            y = self.y
-            
-        spriteM.fenetre.blit(self.img[(self.name + "_" + str(frame))], (x,y))
-        if debug == 1:
-            print("img rendu en x:",self.x," y:",self.y)
+                self.img[nbrframe] = ((tx*i), (ty*ii), tx, ty)
+                #print((nbrframe),": ",(tx*i)," ", (ty*ii)," ", tx," ", ty)
+                nbrframe += 1
+                           
 
-    def render_rot(self, angle=0, x="none", y="none", frame=0, debug=0):
-
+    def render(self, x="none", y="none", frame=0):
         if x == "none":
             x = self.x
         if y == "none":
             y = self.y
 
-        image = self.img[(self.name + "_" + str(frame))]
+        if self.multiFrame == 0:
+            spriteM.fenetre.blit(self.img[(self.name )], (x,y))
+        else:
+            img = self.img[(self.name)]
+            spriteM.fenetre.blit(img.subsurface(self.img[frame]), (x,y))
+        #print("img rendu en x:",self.x," y:",self.y)
 
+    def render_rot(self, angle=0, x="none", y="none", frame=0):
+
+        if x == "none":
+            x = self.x
+        if y == "none":
+            y = self.y
+            
+        if self.multiFrame == 0:
+            image = self.img[(self.name)]
+        else:
+            img = self.img[(self.name)]
+            image = img.subsurface(self.img[frame])
+            
         orig_rect = image.get_rect()
         rot_image = pygame.transform.rotate(image, angle)
         rot_rect = orig_rect.copy()
@@ -73,7 +80,6 @@ class spriteM:
         
         spriteM.fenetre.blit(rot_image, (x,y))
         
-        if debug == 1:
-            print("img rendu en x:",x," y:",y, ". Avec un angle de ",angle," dg.")
+        #print("img rendu en x:",x," y:",y, ". Avec un angle de ",angle," dg.")
 
     
