@@ -34,7 +34,7 @@ class anime:
             self.frame = liste
                 
         self.time += 1
-        self.img.render(self.x, self.y, (self.etat))
+        self.img.render(x, y, (self.etat))
         if self.time >= self.tick:
             self.time = 0
             if self.etat == (len(self.frame)-1):
