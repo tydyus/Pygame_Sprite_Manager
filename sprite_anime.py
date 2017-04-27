@@ -20,7 +20,19 @@ class anime:
             x = self.x
         if y == "none":
             y = self.y
-
+        if self.frame[1] == "to":
+            a = self.frame[0]
+            b = self.frame[2]
+            liste = []
+            frame = 0
+            for i in range(b):
+                if i < a:
+                    pass
+                else:
+                    liste.append(i)
+                frame +=1
+            self.frame = liste
+                
         self.time += 1
         self.img.render(self.x, self.y, (self.etat))
         if self.time >= self.tick:
