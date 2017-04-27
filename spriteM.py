@@ -29,7 +29,7 @@ class spriteM:
         self.path = path
         self.img = {(self.name ):pygame.image.load(path).convert_alpha()}
 
-    def frames(self, tx, ty, path="none"):
+    def frames(self, tx, ty, maxFrames=0, path="none"): #tx/ty: taille d'une frames, maxFrames: nbr de frames du sprite
         if path != "none":
             load(path)
             
@@ -44,6 +44,8 @@ class spriteM:
                 self.img[nbrframe] = ((tx*i), (ty*ii), tx, ty)
                 #print((nbrframe),": ",(tx*i)," ", (ty*ii)," ", tx," ", ty)
                 nbrframe += 1
+                if maxFrames != 0 and maxFrames == nbrframe:
+                    break
                            
 
     def render(self, x="none", y="none", frame=0):
@@ -79,6 +81,9 @@ class spriteM:
         rot_image = rot_image.subsurface(rot_rect).copy()
         
         spriteM.fenetre.blit(rot_image, (x,y))
+
+    def render_anim(self,anime): #anime= liste des frames à rendre
+        pass
         
         #print("img rendu en x:",x," y:",y, ". Avec un angle de ",angle," dg.")
 
