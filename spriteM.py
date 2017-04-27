@@ -82,9 +82,17 @@ class spriteM:
         
         spriteM.fenetre.blit(rot_image, (x,y))
 
-    def render_anim(self,anime): #anime= liste des frames à rendre
-        pass
-        
         #print("img rendu en x:",x," y:",y, ". Avec un angle de ",angle," dg.")
+        
+    def render_anim(self, anime, x="none", y="none"): #anime= liste des frames à rendre
+        if x == "none":
+            x = self.x
+        if y == "none":
+            y = self.y
+
+        for i to range(len(anime)):
+            render(self.x,self.y,anime[i])
+        
+        
 
     
