@@ -1,0 +1,59 @@
+# Pygame_Sprite_Manager
+Bibliotheque minimaliste de management de sprites pour pygame.
+
+* fonction
+** class spriteM
+
+*** -init
+**** self
+****  path
+chemin de l'image stockée
+****  x=0, y=0 
+x,y -> coordonées de render de l'image stockée
+
+*** -load
+**** self
+**** path 
+chemin de l'image stockée
+**** x="none", y="none" 
+coordonées de render de l'image stockée
+
+*** -frames
+**** self
+***** tx, ty 
+coordonées d'une image dans le sprite
+***** maxFrames=0 
+nombre de decoupes à faire ,de base le maximum
+***** path="none" 
+chemin de l'image stockée
+
+*** -render
+**** self
+**** x="none", y="none"
+coordonées de rendu de l'image, de base celle stocké à l'init
+**** frame=0 
+frame rendu
+
+*** -render_rot
+**** self
+**** angle=0 
+angle de la rotation
+**** x="none", y="none"
+coordonées de rendu de l'image, de base celle stocké à l'init
+**** frame=0 
+frame rendu
+
+** class anime
+
+*** -init
+**** self
+**** imgObj_spriteM
+**** tick
+**** frameListe
+**** x, y
+
+*** -render
+**** self
+**** x="none", y="none"
+**** repeat="repeat"
+**** rot=0
