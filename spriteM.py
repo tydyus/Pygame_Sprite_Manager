@@ -3,20 +3,22 @@ from pygame.locals import *
 from PIL import Image
 
 from sprite_anime import *
+from img import *
 
 class spriteM:
 
     
     counter = 0 #nombre d'image dans le sprite manager
-    fenetre = pygame.display.set_mode((854, 480)) #l'on défini la fenetre de pygame dans le l'objet spriteM
-
+    fenetre = pygame.display.set_mode((854, 480),HWSURFACE|DOUBLEBUF|RESIZABLE) #l'on défini la fenetre de pygame dans le l'objet spriteM
+    facteur = 1
     def __init__(self, path, x=0, y=0):
         
         spriteM.counter += 1
         self.name = "SpriteM_n." + str(spriteM.counter)
+        self.nameSRC = "SpriteM_SRC_n." + str(spriteM.counter) 
         self.x = x
         self.y = y
-        self.img = {(self.name):pygame.image.load(path).convert_alpha()}
+        self.img = {(self.name):pygame.image.load(path).convert_alpha(), (self.nameSRC):pygame.image.load(path).convert_alpha()}
         self.path = path
         self.multiFrame = 0
         
@@ -30,7 +32,15 @@ class spriteM:
             y = self.y
 
         self.path = path
-        self.img = {(self.name ):pygame.image.load(path).convert_alpha()}
+        self.img = {(self.name ):pygame.image.load(path).convert_alpha(), (self.nameSRC):pygame.image.load(path).convert_alpha()}
+
+    def resize(self, facteur):
+        screen=pygame.display.set_mode((int(854*facteur),int(480*facteur)),HWSURFACE|DOUBLEBUF|RESIZABLE)
+        rect = self.img[self.nameSRC].get_rect()
+        #print(self.name," ",rect)
+        picture = self.img[self.nameSRC]
+        picture = pygame.transform.scale(picture, (int(picture.get_rect()[2]*facteur),int(picture.get_rect()[3]*facteur)))
+        self.img[self.name] = picture
 
     def frames(self, tx, ty, maxFrames=0, path="none"): #tx/ty: taille d'une frames, maxFrames: nbr de frames du sprite
         if path != "none":
@@ -58,10 +68,10 @@ class spriteM:
             y = self.y
 
         if self.multiFrame == 0:
-            spriteM.fenetre.blit(self.img[(self.name )], (x,y))
+            spriteM.fenetre.blit(self.img[(self.name )], (x*spriteM.facteur,y*spriteM.facteur))
         else:
             img = self.img[(self.name)]
-            spriteM.fenetre.blit(img.subsurface(self.img[frame]), (x,y))
+            spriteM.fenetre.blit(img.subsurface(self.img[frame]), (x*spriteM.facteur,y*spriteM.facteur))
         #print("img rendu en x:",self.x," y:",self.y)
 
     def render_rot(self, angle=0, x="none", y="none", frame=0):
@@ -83,7 +93,7 @@ class spriteM:
         rot_rect.center = rot_image.get_rect().center
         rot_image = rot_image.subsurface(rot_rect).copy()
         
-        spriteM.fenetre.blit(rot_image, (x,y))
+        spriteM.fenetre.blit(rot_image, (x*spriteM.facteur,y*spriteM.facteur))
 
         #print("img rendu en x:",x," y:",y, ". Avec un angle de ",angle," dg.")
         
