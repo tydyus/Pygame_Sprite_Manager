@@ -9,7 +9,9 @@ class spriteM:
 
     
     counter = 0 #nombre d'image dans le sprite manager
-    fenetre = pygame.display.set_mode((854, 480),HWSURFACE|DOUBLEBUF|RESIZABLE) #l'on défini la fenetre de pygame dans le l'objet spriteM
+    screen_x = 854
+    screen_y = 480
+    fenetre = pygame.display.set_mode((screen_x,screen_y),HWSURFACE|DOUBLEBUF|RESIZABLE) #l'on défini la fenetre de pygame dans le l'objet spriteM
     facteur = 1
     def __init__(self, path, x=0, y=0):
         
@@ -35,7 +37,7 @@ class spriteM:
         self.img = {(self.name ):pygame.image.load(path).convert_alpha(), (self.nameSRC):pygame.image.load(path).convert_alpha()}
 
     def resize(self, facteur):
-        screen=pygame.display.set_mode((int(854*facteur),int(480*facteur)),HWSURFACE|DOUBLEBUF|RESIZABLE)
+        screen=pygame.display.set_mode((int(spriteM.screen_x*facteur),int(spriteM.screen_y*facteur)),HWSURFACE|DOUBLEBUF|RESIZABLE)
         rect = self.img[self.nameSRC].get_rect()
         #print(self.name," ",rect)
         picture = self.img[self.nameSRC]
